@@ -3,24 +3,16 @@
     placeholder="ММ / ГГ"
     :filled="filled"
     :focus="focus"
-    :invalid="invalid"
+    :invalid="!expDateValid"
     invalid-msg="Неправильная дата"
   >
     <div class="exp-date-input">
       <div class="input-field field1">
-        <InputComponent
-          :inputHandler="handler"
-          @focus="setFocus"
-          @input="setMonth"
-        />
+        <InputComponent @focus="setFocus" v-model="monthValue" />
       </div>
       <span v-if="focus || filled" class="separator" v-text="'/'" />
       <div class="input-field field2">
-        <InputComponent
-          :inputHandler="handler"
-          @focus="setFocus"
-          @input="setYear"
-        />
+        <InputComponent @focus="setFocus" v-model="yearValue" />
       </div>
     </div>
   </LayoutInput>
@@ -36,8 +28,17 @@ export default {
     LayoutInput,
     InputComponent,
   },
-  props: {},
-  emits: ['valid', 'update:modelValue', 'update:exp-date-valid'],
+  props: {
+    modelValue: {
+      type: String,
+      required: true,
+    },
+    expDateValid: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ['update:modelValue', 'update:exp-date-valid'],
   data() {
     return {
       focus: false,
@@ -49,15 +50,21 @@ export default {
     filled() {
       return !!(this.month + this.year).replace(/[^0-9]/g, '').length;
     },
-    invalid() {
-      let status = false;
-      if (
-        this.filled &&
-        (+this.month < 1 || +this.month > 12 || !this.year.length)
-      ) {
-        status = true;
-      }
-      return status;
+    monthValue: {
+      get() {
+        return this.month;
+      },
+      set(value) {
+        this.setMonth(this.handler(value));
+      },
+    },
+    yearValue: {
+      get() {
+        return this.year;
+      },
+      set(value) {
+        this.setYear(this.handler(value));
+      },
     },
   },
   methods: {
@@ -67,11 +74,9 @@ export default {
     addNull(value) {
       return ('0' + value).slice(-2);
     },
-    handler: (e, emit) => {
-      const value = e.target.value;
+    handler: (value) => {
       const number = value.replace(/[^0-9]/g, '').slice(0, 2);
-      e.target.value = number;
-      emit('input', number);
+      return number;
     },
     setMonth(value) {
       this.month = value;
@@ -81,11 +86,17 @@ export default {
       this.year = value;
       this.setValue();
     },
+    validate() {
+      let valid = false;
+      if (+this.month > 0 && +this.month <= 12 && this.year.length) {
+        valid = true;
+      }
+      this.$emit('update:exp-date-valid', valid);
+    },
     setValue() {
       const result = `${this.addNull(this.month)}/${this.addNull(this.year)}`;
       this.$emit('update:modelValue', result);
-      const valid = !this.invalid && this.filled;
-      this.$emit('update:exp-date-valid', valid);
+      this.validate();
     },
   },
 };

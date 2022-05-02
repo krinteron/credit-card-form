@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     showInvalid() {
-      return !this.focus && this.invalid;
+      return !this.focus && this.filled && this.invalid;
     },
   },
 };

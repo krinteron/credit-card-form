@@ -2,9 +2,10 @@
   <input
     class="input"
     :type="type"
-    @input="(event) => inputHandler(event, $emit)"
-    @focus="setFocus"
-    @blur="blur"
+    v-model="value"
+    @input="inputCheck"
+    @focus="$emit('focus', true)"
+    @blur="$emit('focus', false)"
   />
 </template>
 
@@ -17,24 +18,25 @@ export default {
       required: false,
       default: 'text',
     },
-    inputHandler: {
-      type: Function,
-      required: false,
-      default: (event, emit) => emit('input', event.target.value),
+    modelValue: {
+      type: String,
+      required: true,
     },
   },
-  emits: ['focus', 'input'],
-  data() {
-    return {
-      focus: false,
-    };
+  emits: ['focus', 'update:modelValue'],
+  computed: {
+    value: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        return this.$emit('update:modelValue', value);
+      },
+    },
   },
   methods: {
-    setFocus() {
-      this.$emit('focus', true);
-    },
-    blur() {
-      this.$emit('focus', false);
+    inputCheck(event) {
+      event.target.value = this.modelValue;
     },
   },
 };

@@ -1,17 +1,12 @@
 <template>
   <LayoutInput
     placeholder="CVV"
-    :filled="!!result"
+    :filled="!!value"
     :focus="focus"
-    :invalid="invalid"
+    :invalid="!cvvValid"
     invalid-msg="В СVV 3 цифры"
   >
-    <InputComponent
-      :input-handler="handler(this.minLength)"
-      type="password"
-      @focus="setFocus"
-      @input="setValue"
-    />
+    <InputComponent type="password" @focus="setFocus" v-model="value" />
   </LayoutInput>
 </template>
 
@@ -25,41 +20,46 @@ export default {
     LayoutInput,
     InputComponent,
   },
-  props: {},
-  emits: ['invalid', 'update:modelValue', 'update:cvv-valid'],
+  props: {
+    modelValue: {
+      type: String,
+      required: true,
+    },
+    cvvValid: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ['update:modelValue', 'update:cvv-valid'],
   data() {
     return {
-      test: '',
       focus: false,
-      result: '',
       minLength: 3,
     };
   },
   computed: {
-    invalid() {
-      const count = this.result.replace(/[^0-9]/g, '').length;
-      const status = count > 0 && count < this.minLength;
-      return status;
+    value: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', this.handler(value));
+        this.validate(value);
+      },
     },
   },
   methods: {
-    setTest(value) {
-      this.test = value;
-    },
     setFocus(value) {
       this.focus = value;
     },
-    handler: (minLength) => (e, emit) => {
-      const value = e.target.value;
-      const number = value.replace(/[^0-9]/g, '').slice(0, minLength);
-      e.target.value = number;
-      emit('input', number);
-    },
-    setValue(value) {
-      this.result = value;
-      this.$emit('update:modelValue', value);
-      const valid = this.result && !this.invalid;
+    validate(value) {
+      const length = value.replace(/[^0-9]/g, '').length;
+      const valid = length >= this.minLength;
       this.$emit('update:cvv-valid', valid);
+    },
+    handler(value) {
+      const result = value.replace(/[^0-9]/g, '').slice(0, this.minLength);
+      return result;
     },
   },
 };
