@@ -81,12 +81,12 @@ export default {
       alert('there is no way');
     },
     sendCard() {
-      const cardData = {
-        card_number: this.getNumbers(this.cardNumber),
-        exp_date: this.expDate,
-        cvv: this.getNumbers(this.cvv),
+      const data = {
+        cardNumber: this.cardNumber,
+        expDate: this.expDate,
+        cvv: this.cvv,
       };
-      this.$store.dispatch('demoSendCard', cardData);
+      this.$store.dispatch('setData', data);
     },
   },
 };
