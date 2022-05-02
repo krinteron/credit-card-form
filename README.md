@@ -1,4 +1,7 @@
-# pay-form-frontend
+# credit-card-form
+
+## DEMO
+[Github Pages](https://krinteron.github.io/credit-card-form/)
 
 ## Project setup
 
