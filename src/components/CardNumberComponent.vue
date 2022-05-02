@@ -35,6 +35,7 @@ export default {
     return {
       focus: false,
       minLength: 16,
+      chunkCount: 4,
     };
   },
   computed: {
@@ -61,12 +62,12 @@ export default {
 
     handler(value) {
       const number = value.replace(/[^0-9]/g, '').slice(0, this.minLength);
-      const count = Math.floor(number.length / 4);
+      const count = Math.floor(number.length / this.chunkCount);
       let result = number;
       if (count >= 1) {
         let acc = [];
-        for (let i = 0; i < number.length; i += 4) {
-          acc.push(number.slice(i, i + 4));
+        for (let i = 0; i < number.length; i += this.chunkCount) {
+          acc.push(number.slice(i, i + this.chunkCount));
         }
         result = acc.join(' ');
       }

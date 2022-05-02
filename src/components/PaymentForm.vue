@@ -46,8 +46,6 @@ export default {
   emits: [],
   data() {
     return {
-      focus: false,
-      result: '',
       cardNumber: '',
       cardNumberValid: false,
       expDate: '',
@@ -62,14 +60,16 @@ export default {
     },
   },
   methods: {
-    setFocus(value) {
-      this.focus = value;
+    getNumbers(string) {
+      return string.replace(/[^0-9]/g, '');
     },
-    handler(event) {
-      this.$emit('input', event.target.value);
-    },
-    setValue(value) {
-      this.result = value;
+    sendCard() {
+      const cardData = {
+        card_number: this.getNumbers(this.cardNumber),
+        exp_date: this.expDate,
+        cvv: this.getNumbers(this.cvv),
+      };
+      this.$store.dispatch('sendCard', cardData);
     },
   },
 };
@@ -147,10 +147,5 @@ export default {
 .row2 {
   margin-top: 16px;
   position: relative;
-}
-
-.secure {
-  display: flex;
-  gap: 20px;
 }
 </style>
