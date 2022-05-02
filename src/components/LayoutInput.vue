@@ -4,7 +4,7 @@
       class="input-wrapper"
       :class="[focus && 'focus', showInvalid && 'invalid']"
     >
-      <slot></slot>
+      <slot />
       <p
         class="label"
         :class="[(filled || focus) && 'active', showInvalid && 'invalid']"

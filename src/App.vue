@@ -1,12 +1,18 @@
 <template>
-  <div class="container"></div>
-  <router-view />
+  <div class="container">
+    <LayoutModal title="Binding a new card">
+      <router-view />
+    </LayoutModal>
+  </div>
 </template>
 
 <script>
+import LayoutModal from '@/components/LayoutModal.vue';
 export default {
   name: 'App',
-  components: {},
+  components: {
+    LayoutModal,
+  },
 };
 </script>
 
@@ -26,15 +32,12 @@ p {
 }
 
 .container {
+  display: inline-flex;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   gap: 24px;
+  width: 700px;
 
   padding: 24px;
-  // background: #fffefb;
-  // box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
-  //   0px 6px 10px rgba(0, 0, 0, 0.02);
-  border-radius: 4px;
 }
 </style>

@@ -36,6 +36,7 @@
         :pretty="true"
         text="Bind"
         :disabled="!cardIsValid"
+        @click="sendCard"
       />
     </div>
   </div>
@@ -85,7 +86,7 @@ export default {
         exp_date: this.expDate,
         cvv: this.getNumbers(this.cvv),
       };
-      this.$store.dispatch('sendCard', cardData);
+      this.$store.dispatch('demoSendCard', cardData);
     },
   },
 };
@@ -107,7 +108,7 @@ export default {
     gap: 24px;
     width: 424px;
     height: 248px;
-    padding: 27px 28px 0 27px;
+    padding: 27px 27px 0 27px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 16px;
 
