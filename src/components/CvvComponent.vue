@@ -4,7 +4,7 @@
     :filled="!!value"
     :focus="focus"
     :invalid="!cvvValid"
-    invalid-msg="В СVV 3 цифры"
+    invalid-msg="CVV has 3 digits"
   >
     <InputComponent type="password" @focus="setFocus" v-model="value" />
   </LayoutInput>

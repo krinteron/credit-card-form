@@ -1,10 +1,10 @@
 <template>
   <LayoutInput
-    placeholder="Номер карты"
+    placeholder="Card number"
     :filled="!!value"
     :focus="focus"
     :invalid="!cardNumberValid"
-    invalid-msg="Номер карты содержит 16 цифр"
+    invalid-msg="Card number contains 16 digits"
   >
     <InputComponent @focus="setFocus" v-model="value" />
   </LayoutInput>

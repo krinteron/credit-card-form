@@ -1,10 +1,10 @@
 <template>
   <LayoutInput
-    placeholder="ММ / ГГ"
+    placeholder="MM / YY"
     :filled="filled"
     :focus="focus"
     :invalid="!expDateValid"
-    invalid-msg="Неправильная дата"
+    invalid-msg="Incorrect date"
   >
     <div class="exp-date-input">
       <div class="input-field field1">

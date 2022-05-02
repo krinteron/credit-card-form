@@ -1,22 +1,12 @@
 <template>
-  <div class="container">
-    <PaymentForm @submit="addPayment" />
-  </div>
+  <div class="container"></div>
+  <router-view />
 </template>
 
 <script>
-import PaymentForm from './components/PaymentForm.vue';
-
 export default {
   name: 'App',
-  components: {
-    PaymentForm,
-  },
-  methods: {
-    addPayment(data) {
-      this.$store.dispatch('sendPayment', data);
-    },
-  },
+  components: {},
 };
 </script>
 
