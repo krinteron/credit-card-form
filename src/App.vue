@@ -1,26 +1,50 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="container">
+    <PaymentForm @submit="addPayment" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import PaymentForm from './components/PaymentForm.vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    HelloWorld,
+    PaymentForm,
+  },
+  methods: {
+    addPayment(data) {
+      this.$store.dispatch('sendPayment', data);
+    },
   },
 };
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Source Sans Pro, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #3f3f3f;
   margin-top: 60px;
+}
+
+p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  padding: 24px;
+  // background: #fffefb;
+  // box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
+  //   0px 6px 10px rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
 }
 </style>
